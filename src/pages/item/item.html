@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Item</ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+  
+<ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-12>
+                <ion-searchbar (ionInput)="onKeywordItem($event)" (ionCancel)="onClearKeyword($event)" placeholder="Search the item"></ion-searchbar>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12>
+                <ion-list>
+                    <button ion-item *ngFor="let item of items" (press)="selectedItem(item.id)">
+                      {{ item.item_name }}
+                    </button>
+                  </ion-list>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+</ion-content>
