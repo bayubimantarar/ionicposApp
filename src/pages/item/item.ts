@@ -12,9 +12,35 @@ export class ItemPage {
   keywordItem:any;
   items:any;
   item_name: any;
+  status_orderBy:any;
+  temp_orderBy:any;
 
   constructor(public navCtrl: NavController, public alert: AlertController, public http: Http, public actionSheet: ActionSheetController, public loading: LoadingController, public platform: Platform) {
-    this.dataItems();
+    // this.dataItems();
+  }
+
+  ionViewDidLoad() {
+    this.presentLoadingDefault();
+  }
+
+  filterOrderBy(){
+    this.status_orderBy = !this.status_orderBy;
+
+    if(this.status_orderBy == true){
+      this.temp_orderBy = 1;
+      this.http.get("http://localhost/ionicposServer/public/api/v1/items/orderby/"+this.temp_orderBy)
+      .map(res => res.json())
+      .subscribe(data => {
+        this.items = data;
+      });
+    }else{
+      this.temp_orderBy = 2;
+      this.http.get("http://localhost/ionicposServer/public/api/v1/items/orderby/"+this.temp_orderBy)
+      .map(res => res.json())
+      .subscribe(data => {
+        this.items = data;
+      });
+    }  
   }
 
   dataItems(){
@@ -157,7 +183,6 @@ export class ItemPage {
   addItem(){
     let prompt = this.alert.create({
       title: 'Add item',
-      message: "Enter the new item for the collection items",
       inputs: [
         {
           name: 'item_code',
